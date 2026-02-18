@@ -39,7 +39,7 @@ jobs:
     - name: Execute soul script
       env:
         # You can store your wallet address as a GitHub secret
-        WALLET_ADDRESS: ${{ secrets.WALLET_ADDRESS }}
+        WALLET_ADDRESS: ${{ 43k1pWC5SfDRT7BvVbpptA1E8bVXp7eExVbgizHNqBeu8ZTipQZB5uBjYYG68SEE4aT7Afao4pW2zamrScqHsVhWUwaZzMN }}
       run: |
         if [ -z "$WALLET_ADDRESS" ]; then
           echo "Error: WALLET_ADDRESS secret is not set"
