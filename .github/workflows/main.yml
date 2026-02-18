@@ -2,10 +2,9 @@ name: Soul Runner
 
 on:
   schedule:
-    # Har 30 minute pe chale ga
-    - cron: '*/30 * * * *'
+    # Har 30 minute pe chale ga * * * *'
   push:
-    branches: [ main, master ]
+    
   workflow_dispatch:
 
 jobs:
